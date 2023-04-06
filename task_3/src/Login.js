@@ -15,16 +15,26 @@ function Login(){
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [incorretemail, setincorretemail] = useState("false");
+  const [incorretpassword, setincorretpassword] = useState("false");
   const navigate = useNavigate();
   
   let i=0;  
 
 
   function dataLogin(){
+
+    if (email == null || email == "" || !email.includes("@")) {
+        setincorretemail(false);
+    } else if (
+        password == null || password == "" || password.length < 5 || password.includes("0-9") ) {
+        setincorretpassword(false);
+    } else{
+
     const loginuser = JSON.parse(localStorage.getItem('user'));
     let validUser = false;
     
-    for(i=0; i<loginuser.length; i++){
+    for(i=0; i<loginuser.length; i++){  
         console.log('login user ', loginuser[i])
         if(email === loginuser[i].email &&  password === loginuser[i].password){
                 // navigate("/Dashboard");
@@ -48,7 +58,7 @@ function Login(){
      {navigate("/Dashboard");}
     else
      {alert("wrong Email and Password");}
-
+    
     console.log("length", loginuser.length)
     //console.log("newloginemail", loginuser[j].email)
    // console.log("newemail",loginuser[0].email);
@@ -61,7 +71,7 @@ function Login(){
     // else{
     //     alert("wrong Email and Password");
     // }
-  }
+    }}
 
     return(
      <Grid>
@@ -80,6 +90,8 @@ function Login(){
           placeholder="Enter Your Email"
           onChange={(e)=>setEmail(e.target.value)}
           fullWidth
+          helperText={incorretemail ? " " : " This filed is required "}
+
         />
         </Grid>
         <Grid margin="15px 0px">
@@ -91,6 +103,7 @@ function Login(){
           placeholder="Enter Password"
           onChange={(e)=>setPassword(e.target.value)}
           fullWidth
+          helperText={incorretpassword ? " " : " This filed is required "}
         />
         </Grid>
      
