@@ -5,9 +5,6 @@ import { useState }from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-
-
-
 function Login(){
   const paperstyle={padding:40, width:280, margin:'20px auto'}
   const avatarstyle = {backgroundColor:'green'}
@@ -17,12 +14,23 @@ function Login(){
   const [password, setPassword] = useState('')
   const [incorretemail, setincorretemail] = useState("false");
   const [incorretpassword, setincorretpassword] = useState("false");
+  const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
+  //const [loggedInUser, setLoggedInUser] = useState({})
+  let loggedInUser;
   const navigate = useNavigate();
   
   let i=0;  
-
+  
+  const preventDefault = (event) => {
+    event.preventDefault();
+    navigate("/Register");
+}
 
   function dataLogin(){
+
+    // var data ={
+    //   userLogginData : true 
+    // }
 
     if (email == null || email == "" || !email.includes("@")) {
         setincorretemail(false);
@@ -33,12 +41,15 @@ function Login(){
 
     const loginuser = JSON.parse(localStorage.getItem('user'));
     let validUser = false;
-    
+    if(loginuser === null){
+        alert("You are not Register");
+    }else{
     for(i=0; i<loginuser.length; i++){  
         console.log('login user ', loginuser[i])
         if(email === loginuser[i].email &&  password === loginuser[i].password){
                 // navigate("/Dashboard");
                 validUser = true;
+                loggedInUser = loginuser[i]
                 break;
             }
          else{
@@ -53,33 +64,36 @@ function Login(){
         // console.log("useremail", useremail)
         // console.log("userpassword", userpassword)
       }
+      console.log("==================", loggedInUser)
+
+    //localStorage.setItem("logginUser", JSON.stringify(loggedInUser) )
+
+    const userinformation = JSON.stringify(loginuser);
+
+    console.log(userinformation);
     
-    if(validUser) 
-     {navigate("/Dashboard");}
+    if(validUser) { 
+      setauthenticated(true)
+      localStorage.setItem("authenticated", true);
+      // localStorage.setItem("logginUser", JSON.stringify(loggedInUser) )
+      // localStorage.setItem("dataUserValue", JSON.stringify(data));
+      navigate("/", {state : {userdata :loggedInUser }});}
     else
      {alert("wrong Email and Password");}
     
     console.log("length", loginuser.length)
-    //console.log("newloginemail", loginuser[j].email)
-   // console.log("newemail",loginuser[0].email);
     console.log('loginuser', loginuser);
 
-    
-    // if(email === useremail &&  password === userpassword){
-    //     navigate("/Dashboard");
-    // }
-    // else{
-    //     alert("wrong Email and Password");
-    // }
+    }
     }}
 
-    return(
+    return( 
      <Grid>
       <Paper elevation={10} style={paperstyle}>
         <Grid align="center">
           <Avatar style={avatarstyle}>
             <LockIcon />
-          </Avatar>
+          </Avatar> 
           <h2>Login Form </h2>
         </Grid>
         <Grid margin="15px 0px">
@@ -111,6 +125,9 @@ function Login(){
         <Button onClick={()=>dataLogin()} variant="contained" color="primary" style={btnstyle} fullWidth>
           Login In
         </Button>
+        <Typography>
+         Don't have an account? <Link href="/Register" onClick={preventDefault}> Register</Link>
+        </Typography>
       </Paper>
     </Grid>
     )

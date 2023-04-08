@@ -6,16 +6,36 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
-function createData(Firstname, Lastname, Email, Password, Photo) {
-  return { Firstname, Lastname, Email, Password, Photo };
-}
+// function createData(Firstname, Lastname, Email, Password, Photo) {
+//   return { Firstname, Lastname, Email, Password, Photo };
+// }
 
 export default function Dashboard() {
   
-  const loginuser = JSON.parse(localStorage.getItem('user'));
-  console.log("loginuser" , loginuser)
+  // const loginuser = JSON.parse(localStorage.getItem('user'));
+  // console.log("loginuser" , loginuser)
+  // console.log("firstname", loginuser[0].firstname)
 
+ // const [authenticated, setauthenticated] = useState(null);
+
+  const{state}=useLocation();
+  
+  const{userdata}=state;
+
+  //const{loginUserData} = state;
+
+  console.log("Dashborddata", userdata);
+
+  // console.log("loginUserData", loginUserData);
+  // console.log("loginUserData", loginUserData.userLogginData);
+  // const tabledata = JSON.parse(userdata);
+
+  // console.log('tabledata',tabledata);
+
+  // console.log("firstname", tabledata[0].firstname)
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -28,23 +48,38 @@ export default function Dashboard() {
             <TableCell align="right">Photo</TableCell>
           </TableRow>
         </TableHead>
-        {/* <TableBody>
-          {loginuser.map((loginuser) => (
+        <TableBody>
+            {/* <TableCell align="right">{tabledata[0].firstname}</TableCell>
+            <TableCell align="right">{tabledata[0].lastname}</TableCell>
+            <TableCell align="right">{tabledata[0].email}</TableCell>
+            <TableCell align="right">{tabledata[0].password}</TableCell> */}
+            
+            <TableCell align="right">{userdata.firstname}</TableCell>
+            <TableCell align="right">{userdata.lastname}</TableCell>
+            <TableCell align="right">{userdata.email}</TableCell>
+            <TableCell align="right">{userdata.password}</TableCell>
+            {/* <img src={require('./Uploadfile/10_SAKSHAM QUIZ.jpeg')}/> */}
+            {/* <img src={require('./Uploadfile/' + userdata.file)}/> */}
+            
+            
+           {/* <TableCell align="right">{}</TableCell> */}  
+
+          {/* {loginuser.map((loginuser) => (
             <TableRow
-              key={loginuser[i].Firstname}
+              key={loginuser.Firstname}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {loginuser[i].Firstname}
+                {loginuser.Firstname}
               </TableCell>
               <TableCell align="right">{loginuser}</TableCell>
               <TableCell align="right">{loginuser}</TableCell>
               <TableCell align="right">{loginuser}</TableCell>
               <TableCell align="right">{loginuser}</TableCell>
             </TableRow>
-          ))}
-        </TableBody> */}
-      </Table>
-    </TableContainer>
-  );
+          ))} */}
+        </TableBody>
+       </Table>
+     </TableContainer>
+   );
 }

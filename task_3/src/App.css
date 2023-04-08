@@ -1,7 +1,10 @@
 /* .App {
   text-align: center;
 } */
-
+img{
+  width: 120px;
+  height: 120px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

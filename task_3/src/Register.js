@@ -11,9 +11,10 @@ import {
 import LockIcon from "@mui/icons-material/Lock";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+
 
 var user_data = [];
+let i=0;
 
 const Register = () => {
   const paperstyle = { padding: 40, width: 280, margin: "20px auto" };
@@ -35,10 +36,12 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  const preventDefault = (event) => {
+    event.preventDefault();
+    navigate("/Login");
+}
+  
   function dataRegister() {
-    // console.log("data");
-
-    // var user_data = [];
     var user = {
       firstname: firstname,
       lastname: lastname,
@@ -46,35 +49,55 @@ const Register = () => {
       password: password,
       file: imagefile,
     };
-
-    // user_data.push(user);
-    // console.log("user_data", user_data);
-    // localStorage.setItem("user", JSON.stringify(user_data));
+    
 
     if (firstname == null || firstname == "") {
       setincorretfirstname(false);
-      //alert("name is required")
     } else if (lastname == null || lastname == "") {
       setincorretlastname(false);
-      //alert("name is required")
     } else if (email == null || email == "" || !email.includes("@")) {
       setincorretemail(false);
-      //alert("name is required")
     } else if (
       password == null ||  password == "" || password.length < 5 || password.includes("0-9")
     ) {
       setincorretpassword(false);
-      //alert("name is required")
-    } else {
-      user_data.push(user);
-      localStorage.setItem("user", JSON.stringify(user_data));
+    }  else {
+       
+       const storageData = JSON.parse(localStorage.getItem('user'));
+       let validUser = false;
+       console.log("storageData", storageData);
+       //console.log("emailid", email);
+       //console.log("storageData[i].email", storageData[i].email)
+       if(storageData === null){
+            user_data.push(user);
+            localStorage.setItem("user", JSON.stringify(user_data));
+            navigate("/", {state : {userdata : user}});
+       }
+       else{
+       for(i=0; i<storageData.length; i++){
+        if(email === storageData[i].email){
+           // alert("you have alredy register");
+            validUser = true;
+            break;
+          } 
 
-      navigate("/Login");
+        }
+        
+        if(validUser){
+             alert("you have alredy register");
+        } else{
+            user_data.push(...storageData, user);
+            localStorage.setItem("user", JSON.stringify(user_data));
+
+            navigate("/" , {state : {userdata : user}});}  
+        }
+    }}
+
+    const setImageFile = (e) => {
+        console.log("setting image",e)
     }
-
-    //navigate('/Login');
-  }
-
+    
+    
   return (
     <Grid>
       <Paper elevation={10} style={paperstyle}>
@@ -132,13 +155,13 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
             helperText={incorretpassword ? " " : " This filed is required "}
-          />
+            />
           <Grid margin="15px 0px">
             <TextField
               name="upload-photo"
               type="file"
-              value={imagefile}
-              onChange={(e) => setimagefile(e.target.value)}
+              onChange={(e) => {setImageFile(e)}}
+            //   value={imagefile}
             />
           </Grid>
         </Grid>
@@ -153,10 +176,10 @@ const Register = () => {
           Sign In
         </Button>
         <Typography>
-          <Link href="#">Forget password ?</Link>
+          <Link href="<Forgetpassword/">Forget password ?</Link>
         </Typography>
         <Typography>
-          Do you have an account ?<Link href="#">Register</Link>
+         Have an account already? <Link href="/Login" onClick={preventDefault}> Login</Link>
         </Typography>
       </Paper>
     </Grid>
