@@ -3,6 +3,7 @@ import {Avatar, Grid, Button, Paper, TextField,Typography,Link} from '@mui/mater
 import LockIcon from '@mui/icons-material/Lock';
 import { useState }from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 function Login(){
@@ -15,8 +16,8 @@ function Login(){
   const [incorretemail, setincorretemail] = useState("false");
   const [incorretpassword, setincorretpassword] = useState("false");
   const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
-  //const [loggedInUser, setLoggedInUser] = useState({})
   let loggedInUser;
+
   const navigate = useNavigate();
   
   let i=0;  
@@ -24,13 +25,9 @@ function Login(){
   const preventDefault = (event) => {
     event.preventDefault();
     navigate("/Register");
-}
+  }
 
   function dataLogin(){
-
-    // var data ={
-    //   userLogginData : true 
-    // }
 
     if (email == null || email == "" || !email.includes("@")) {
         setincorretemail(false);
@@ -47,26 +44,12 @@ function Login(){
     for(i=0; i<loginuser.length; i++){  
         console.log('login user ', loginuser[i])
         if(email === loginuser[i].email &&  password === loginuser[i].password){
-                // navigate("/Dashboard");
                 validUser = true;
                 loggedInUser = loginuser[i]
                 break;
             }
-         else{
-        // alert("wrong Email and Password");
-        // validUser = false;
-      }
-        // for(j=0; j<loginuser.email; j++){
-        // const newemail = loginuser[j].email
-       // console.log("newloginemail", loginuser[j].email);
-        // const useremail = loginuser[i].email
-        // const userpassword = loginuser[i].password
-        // console.log("useremail", useremail)
-        // console.log("userpassword", userpassword)
       }
       console.log("==================", loggedInUser)
-
-    //localStorage.setItem("logginUser", JSON.stringify(loggedInUser) )
 
     const userinformation = JSON.stringify(loginuser);
 
@@ -75,8 +58,6 @@ function Login(){
     if(validUser) { 
       setauthenticated(true)
       localStorage.setItem("authenticated", true);
-      // localStorage.setItem("logginUser", JSON.stringify(loggedInUser) )
-      // localStorage.setItem("dataUserValue", JSON.stringify(data));
       navigate("/", {state : {userdata :loggedInUser }});}
     else
      {alert("wrong Email and Password");}

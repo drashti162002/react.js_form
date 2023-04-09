@@ -21,7 +21,7 @@ const Register = () => {
   const avatarstyle = { backgroundColor: "green" };
   const btnstyle = { margin: "20px 0px" };
 
-  //   const {register, dataRegister , error} = useForm()
+  
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -66,8 +66,7 @@ const Register = () => {
        const storageData = JSON.parse(localStorage.getItem('user'));
        let validUser = false;
        console.log("storageData", storageData);
-       //console.log("emailid", email);
-       //console.log("storageData[i].email", storageData[i].email)
+
        if(storageData === null){
             user_data.push(user);
             localStorage.setItem("user", JSON.stringify(user_data));
@@ -93,9 +92,9 @@ const Register = () => {
         }
     }}
 
-    const setImageFile = (e) => {
-        console.log("setting image",e)
-    }
+    // const setImageFile = (e) => {
+    //     console.log("setting image",e)
+    // }
     
     
   return (
@@ -160,7 +159,7 @@ const Register = () => {
             <TextField
               name="upload-photo"
               type="file"
-              onChange={(e) => {setImageFile(e)}}
+              onChange={(e) => {setimagefile(e)}}
             //   value={imagefile}
             />
           </Grid>
