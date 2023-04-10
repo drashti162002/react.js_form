@@ -88,7 +88,7 @@ const Register = () => {
             user_data.push(...storageData, user);
             localStorage.setItem("user", JSON.stringify(user_data));
 
-            navigate("/" , {state : {userdata : user}});}  
+            navigate("/Login" , {state : {userdata : user}});}  
         }
     }}
 

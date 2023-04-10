@@ -58,7 +58,9 @@ function Login(){
     if(validUser) { 
       setauthenticated(true)
       localStorage.setItem("authenticated", true);
-      navigate("/", {state : {userdata :loggedInUser }});}
+      navigate("/", {state : {userdata :loggedInUser }});
+      localStorage.setItem("loginuser", JSON.stringify(loggedInUser));
+    }
     else
      {alert("wrong Email and Password");}
     
