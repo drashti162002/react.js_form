@@ -23,41 +23,17 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Editdata from './Editdata';
+import { Link } from '@mui/material'
 
 
 
 export default function Dashboard() {
-  const btnstyle = {margin:'20px 0px'}
+  const btnstyle = {margin:'20px 10px', width:'200px'}
   const navigate = useNavigate();
   const{state} = useLocation();
   const [authenticated, setauthenticated] = useState(null);
 
-  // useEffect(() => {
-  //   const loggedInUser = localStorage.getItem("authenticated");
-  //   console.log("localStorage.getItem", localStorage.getItem("authenticated"))
-  //   console.log("loggedInUser", loggedInUser)
-  //    if (loggedInUser) {
-  //        setauthenticated(loggedInUser);
-  //       }
-  //   });
-
-
-  
-    // if (!authenticated) {
-    //   console.log("============",!authenticated)
-    //   navigate("/Login");
-    //   } 
-    // else {
-
-  //const{userdata}=state;
-
-  //const{loginUserData} = state;
-
- // console.log("Dashborddata", userdata);
 
   const userLogout = () =>{
     console.log("===========data", getData)
@@ -68,18 +44,57 @@ export default function Dashboard() {
   const getData = JSON.parse(localStorage.getItem("loginuser"))
   console.log("==========", getData);
 
+  const dataUpdate = () =>{
+    navigate('/Editdata' , {state : {editdata : getData}})
+  }
+  
+
   return (
     <>
-    
-    <Button onClick={()=>userLogout()} variant="contained" color="primary" style={btnstyle} fullWidth>
+    <Card sx={{ maxWidth: 400 , marginLeft:10 }}>
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            D
+          </Avatar>
+        }
+      
+        title={getData.firstname}
+      />
+      <CardContent>
+        <Typography variant="h6" >
+           Firstname : <br></br>
+          {getData.firstname}
+        </Typography>
+        <Typography variant="h6" >
+          Lastname :  <br></br>
+          {getData.lastname}
+        </Typography>
+        <Typography variant="h6"  >
+         Email : <br></br>
+         {getData.email}
+        </Typography>
+        <Typography variant="h6" >
+         Password : <br></br>
+        {getData.password}
+        </Typography>
+        {/* <Editdata/> */}
+      </CardContent>
+      <CardActions >
+      <Button onClick={() =>dataUpdate()} variant="contained" color="primary" >
+          Edit
+      </Button><br></br>   
+      </CardActions>
+      <Button onClick={()=>userLogout()} variant="contained" color="primary" style={btnstyle}>
           LogOut
-    </Button>
-
+      </Button>
+    </Card>
+  
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Firstname</TableCell>
+            <TableCell align="right">Firstname</TableCell>
             <TableCell align="right">Lastname</TableCell>
             <TableCell align="right">Email</TableCell>
             <TableCell align="right">Password</TableCell>
@@ -99,7 +114,11 @@ export default function Dashboard() {
         </TableBody>
        </Table>
      </TableContainer>
+     <Button onClick={()=>userLogout()} variant="contained" color="primary" style={btnstyle} fullWidth>
+          LogOut
+    </Button>
     </>
+    
    );
 
 };
