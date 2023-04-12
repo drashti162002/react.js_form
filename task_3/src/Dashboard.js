@@ -34,7 +34,6 @@ export default function Dashboard() {
   const{state} = useLocation();
   const [authenticated, setauthenticated] = useState(null);
 
-
   const userLogout = () =>{
     console.log("===========data", getData)
     localStorage.removeItem("authenticated");
@@ -58,7 +57,11 @@ export default function Dashboard() {
             D
           </Avatar>
         }
-      
+        // action={
+        //   <IconButton aria-label="settings">
+        //     <MoreVertIcon />
+        //   </IconButton>
+        // }
         title={getData.firstname}
       />
       <CardContent>

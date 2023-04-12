@@ -6,9 +6,10 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useLocation } from 'react-router-dom';
+import { json, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 
 
 let i= 0;
@@ -76,8 +77,10 @@ function Editdata(){
         console.log("updatedCharacters", updatedCharacters)
 
 
-       const newData =  multipleUserData[findIndex] = updatedCharacters;
-       console.log("newData", newData)
+       multipleUserData[findIndex] = updatedCharacters[0];
+       localStorage.setItem('user', JSON.stringify(multipleUserData))
+      //  console.log("newData", newData)
+      
 
       //  const updateData = multipleUserData.splice(findIndex, 1 , updatedCharacters)
       //  console.log("updateData", updateData);
